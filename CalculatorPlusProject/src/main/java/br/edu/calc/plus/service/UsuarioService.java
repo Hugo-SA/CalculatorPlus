@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.calc.plus.domain.Usuario;
 import br.edu.calc.plus.domain.dto.UserDTO;
+import br.edu.calc.plus.exception.DuplicateLoginException;
 import br.edu.calc.plus.repo.UsuarioRepo;
 
 @Service
@@ -26,6 +27,11 @@ public class UsuarioService {
 
 	@Transactional
 	public void save(@Valid UserDTO usuario) {
+		
+		// Check if login already exists
+		if (uDao.findByLogin(usuario.getLogin()).isPresent()) {
+			throw new DuplicateLoginException("Login '" + usuario.getLogin() + "' já está em uso. Escolha outro login.");
+		}
 		
 		Usuario user = usuario.ConvertUsuario();
 		
