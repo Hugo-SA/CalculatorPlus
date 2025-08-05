@@ -28,17 +28,26 @@ public class CadastroTests {
     }
 
     @Test
-    void testRepeticaoDeSenha() {
-        // Simulação: repetição de senha validada fora da entidade
-        String senha = "Senha123";
-        String repetirSenha = "OutraSenha";
-        assertNotEquals(senha, repetirSenha, "Senhas não coincidem");
-    }
+    void testSenhaValida() {
+        Usuario usuario = new Usuario();
+        // Senha válida (>=6, contém maiúscula, minúscula, número, caractere especial)
+        usuario.setSenha("Abcde1@");
+        assertTrue(usuario.senhaValida());
+
+        // Senha inválida (menor que 6)
+        usuario.setSenha("aB1@");
+        assertFalse(usuario.senhaValida());}
 
     @Test
-    void testEmailValido() {
-        Usuario usuario = new Usuario(null, "Ana", "login01", "emailinvalido", "Senha123", "Cidade", null);
-        assertFalse(usuario.getEmail().contains("@"), "Email deve ser válido");
-    }
+    void testLoginValido() {
+        Usuario usuario = new Usuario();
+
+        // login válido
+        usuario.setLogin("login123");
+        assertTrue(usuario.loginValida());
+
+        // login curto
+        usuario.setLogin("log");
+        assertFalse(usuario.loginValida()); }
 
 }
