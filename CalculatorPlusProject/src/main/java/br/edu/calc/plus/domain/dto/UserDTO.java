@@ -23,6 +23,8 @@ public class UserDTO {
 	@NotNull
 	@NotEmpty
 	private String nome, login, senha,email;
+	private String repetirSenha;
+
 	private String cidade;
 	
 	@Past

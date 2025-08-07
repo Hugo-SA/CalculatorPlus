@@ -13,6 +13,7 @@
 						<h5 class="card-title">Perfil do Usuário</h5>
 					</div>
 					<div class="card-body">
+						<div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
 						<form th:action="@{/user}"  th:object="${usuario}" method="POST">
 							<div class="row">
 								<div class="col-md-6 pr-1">
@@ -55,6 +56,19 @@
                                                 <span th:errors="*{senha}"></span>
                                             </div>	
                                             
+									</div>
+								</div>
+								<!-- ...dentro do <form> -->
+								<div class="col-md-3 pl-1">
+									<div class="form-group">
+										<label for="cpRepetirSenha">*Repita a Senha</label>
+										<input type="password" class="form-control" id="cpRepetirSenha"
+											   required="required" minlength="6" placeholder="Repita a senha"
+											   th:field="*{repetirSenha}"
+											   th:classappend="${#fields.hasErrors('repetirSenha')} ? 'is-invalid'" />
+										<div class="invalid-feedback">
+											<span th:errors="*{repetirSenha}"></span>
+										</div>
 									</div>
 								</div>
 							</div>

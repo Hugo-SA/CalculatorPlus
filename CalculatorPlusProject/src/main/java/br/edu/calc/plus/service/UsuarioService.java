@@ -26,7 +26,10 @@ public class UsuarioService {
 
 	@Transactional
 	public void save(@Valid UserDTO usuario) {
-		
+		if (uDao.findByLogin(usuario.getLogin()).isPresent()) {
+			throw new IllegalArgumentException("Login já cadastrado!");
+		}
+
 		Usuario user = usuario.ConvertUsuario();
 		
 		uDao.save(user);

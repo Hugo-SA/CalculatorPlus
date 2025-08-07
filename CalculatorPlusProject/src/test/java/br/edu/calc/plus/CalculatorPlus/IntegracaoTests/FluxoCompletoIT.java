@@ -41,6 +41,7 @@ class FluxoCompletoIT {
                 "ana01",
                 "Senha123",
                 "ana@exemplo.com",
+                "Senha123",
                 "Cidade",
                 LocalDate.of(2000, 1, 1)
         );

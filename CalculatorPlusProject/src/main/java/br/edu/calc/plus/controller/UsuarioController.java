@@ -38,19 +38,26 @@ PasswordEncoder password = new BCryptPasswordEncoder();
     }
 
     @PostMapping("")
-    public String saveUser( @Valid @ModelAttribute("usuario") UserDTO usuario, BindingResult result, 
-            RedirectAttributes attr, ModelMap model,Authentication authentication) {
+    public String saveUser(@Valid @ModelAttribute("usuario") UserDTO usuario, BindingResult result,
+                           RedirectAttributes attr, ModelMap model, Authentication authentication) {
+
+        if (!usuario.getSenha().equals(usuario.getRepetirSenha())) {
+            result.rejectValue("repetirSenha", "error.usuario", "As senhas não coincidem");
+        }
 
         if (result.hasErrors()) {
             return "cadastro";
         }
-        
-        usuario.setSenha( password.encode( usuario.getSenha() ) );
-        
-        userService.save(usuario);
-                
+
+        usuario.setSenha(password.encode(usuario.getSenha()));
+        try {
+            userService.save(usuario);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("erro", e.getMessage());
+            return "cadastro";
+        }
+
         attr.addFlashAttribute("success", "cadastro criado com sucesso.");
-        
         return "redirect:/home";
     }
 
